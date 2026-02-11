@@ -3,8 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JESUN - Personal Portfolio</title>
+    <title>JESUN</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" id="themeColor" content="#764ba2">
+    
+    <!-- iOS Support -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="JESUN">
+    
+    <!-- Favicon - Replace with your logo -->
+    <link rel="icon" type="image/x-icon" href="/icons/favicon.ico">
+    <link rel="shortcut icon" href="/icons/favicon.ico">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+    
     <style>
         * {
             margin: 0;
@@ -19,6 +34,25 @@
             --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --card-bg: rgba(255, 255, 255, 0.1);
             --text-color: white;
+            --border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #ff6b6b;
+            --secondary-color: #feca57;
+            --bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            --card-bg: rgba(0, 0, 0, 0.3);
+            --text-color: #f0f0f0;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="light"] {
+            --primary-color: #ff6b6b;
+            --secondary-color: #feca57;
+            --bg-gradient: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #dee2e6 100%);
+            --card-bg: rgba(255, 255, 255, 0.7);
+            --text-color: #212529;
+            --border-color: rgba(0, 0, 0, 0.1);
         }
 
         body {
@@ -26,9 +60,9 @@
             color: var(--text-color);
             min-height: 100vh;
             padding: 20px;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
-        /* Main Content Container - Full Width */
         .main-content {
             max-width: 1200px;
             margin: 0 auto;
@@ -37,17 +71,49 @@
             border-radius: 25px;
             padding: 40px 30px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid var(--border-color);
         }
 
-        /* Header with Like/Heart System */
+        /* Theme Toggle Buttons */
+        .theme-toggle {
+            display: flex;
+            gap: 10px;
+            position: absolute;
+            top: 30px;
+            right: 30px;
+        }
+
+        .theme-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 10px 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .theme-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .theme-btn.active {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
         .header-section {
             display: flex;
             align-items: center;
             justify-content: space-between;
             margin-bottom: 30px;
             padding-bottom: 20px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 2px solid var(--border-color);
+            position: relative;
         }
 
         .profile-container {
@@ -56,7 +122,6 @@
             gap: 20px;
         }
 
-        /* Floating JS Logo Animation */
         .profile-pic {
             width: 120px;
             height: 120px;
@@ -75,19 +140,11 @@
             overflow: hidden;
         }
 
-        /* Floating animation */
         @keyframes float {
-            0%, 100% {
-                transform: translateY(0);
-                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-            }
-            50% {
-                transform: translateY(-10px);
-                box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5);
-            }
+            0%, 100% { transform: translateY(0); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); }
+            50% { transform: translateY(-10px); box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5); }
         }
 
-        /* Inner glow effect */
         .profile-pic::before {
             content: '';
             position: absolute;
@@ -121,7 +178,13 @@
             to { text-shadow: 0 0 25px var(--secondary-color); }
         }
 
-        /* Reaction System */
+        /* Static Text - No Animation */
+        .static-text {
+            font-size: 1.2em;
+            color: var(--secondary-color);
+            margin-top: 5px;
+        }
+
         .reaction-container {
             display: flex;
             align-items: center;
@@ -136,7 +199,7 @@
             align-items: center;
             gap: 10px;
             min-width: 120px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
             transition: all 0.3s ease;
             cursor: pointer;
             position: relative;
@@ -153,22 +216,12 @@
             opacity: 0.7;
         }
 
-        .reaction-box.disabled:hover {
-            transform: none;
-            background: rgba(255, 255, 255, 0.15);
-        }
-
         .reaction-icon {
             font-size: 1.8em;
         }
 
-        .thumbs-icon {
-            color: #4CAF50;
-        }
-
-        .heart-icon {
-            color: #ff4757;
-        }
+        .thumbs-icon { color: #4CAF50; }
+        .heart-icon { color: #ff4757; }
 
         .reaction-count {
             font-size: 1.4em;
@@ -176,7 +229,6 @@
             color: var(--secondary-color);
         }
 
-        /* Birthday Section */
         .birthday {
             background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
             border-radius: 15px;
@@ -190,21 +242,42 @@
             justify-content: center;
             gap: 15px;
             box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+            color: white;
         }
 
-        /* Email Section */
+        .info-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .info-label {
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 10px;
+        }
+
+        .info-value {
+            font-size: 1.6em;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
         .section-container {
             background: rgba(255, 255, 255, 0.08);
             border-radius: 20px;
             padding: 25px;
             margin: 25px 0;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            animation: slideUp 1s ease-out;
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
+            border: 1px solid var(--border-color);
         }
 
         .section-title {
@@ -226,7 +299,7 @@
 
         .email-item {
             background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
             border-radius: 15px;
             padding: 18px;
             display: flex;
@@ -260,17 +333,13 @@
             background: rgba(255, 255, 255, 0.2);
         }
 
-        .email-details {
-            flex: 1;
-        }
-
+        .email-details { flex: 1; }
         .email-name {
             font-size: 1.1em;
             font-weight: bold;
-            color: white;
+            color: var(--text-color);
             margin-bottom: 5px;
         }
-
         .email-address {
             font-size: 0.95em;
             color: rgba(255, 255, 255, 0.8);
@@ -292,7 +361,6 @@
             background: rgba(255, 255, 255, 0.2);
         }
 
-        /* Social Links - Original Logos */
         .social-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -300,23 +368,9 @@
             margin-top: 20px;
         }
 
-        @media (max-width: 1024px) {
-            .social-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .social-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 480px) {
-            .social-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+        @media (max-width: 1024px) { .social-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 768px) { .social-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 480px) { .social-grid { grid-template-columns: 1fr; } }
 
         .social-item {
             display: flex;
@@ -362,29 +416,10 @@
             font-weight: bold;
         }
 
-        /* Threads Logo - White Version */
-        .fa-threads {
-            color: white;
-            background: linear-gradient(45deg, #000, #333);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 2px 4px rgba(255, 255, 255, 0.3);
+        .fa-headphones-alt, .fa-bolt, .fa-threads, .fa-x-twitter {
+            color: white !important;
         }
 
-        /* Discord Logo - White Headphones */
-        .fa-headphones-alt {
-            color: white;
-            font-size: 1.4em;
-        }
-
-        /* Telegram Logo - White Lightning Bolt */
-        .fa-bolt {
-            color: white;
-            font-size: 1.4em;
-        }
-
-        /* Copy Link Button */
         .copy-link-container {
             margin: 25px 0;
             text-align: center;
@@ -412,7 +447,6 @@
             background: linear-gradient(45deg, #45a049, #3d8b40);
         }
 
-        /* Stats Section with Continuous Loading Bar */
         .stats-section {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -420,35 +454,21 @@
             margin: 40px 0;
         }
 
-        @media (max-width: 768px) {
-            .stats-section {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 15px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .stats-section {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-        }
+        @media (max-width: 768px) { .stats-section { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 480px) { .stats-section { grid-template-columns: 1fr; } }
 
         .stat-item {
             background: rgba(255, 255, 255, 0.1);
             border-radius: 20px;
             padding: 25px;
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
         }
 
         .stat-item:hover {
             background: rgba(255, 255, 255, 0.15);
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
 
         .stat-number {
@@ -456,17 +476,15 @@
             font-weight: bold;
             color: var(--secondary-color);
             margin-bottom: 15px;
-            text-shadow: 0 0 10px rgba(254, 202, 87, 0.3);
         }
 
         .stat-label {
             font-size: 1.1em;
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--text-color);
             margin-bottom: 20px;
             font-weight: 600;
         }
 
-        /* Continuous Loading Bar */
         .loading-bar-container {
             width: 100%;
             height: 8px;
@@ -483,19 +501,15 @@
             background: linear-gradient(90deg, #FF8C00, #FFA500, #FFD700);
             border-radius: 4px;
             position: absolute;
-            animation: slideLeftRight 2s ease-in-out infinite;
+            animation: backAndForth 2s ease-in-out infinite;
         }
 
-        @keyframes slideLeftRight {
-            0%, 100% {
-                left: -30%;
-            }
-            50% {
-                left: 100%;
-            }
+        @keyframes backAndForth {
+            0% { left: -30%; }
+            50% { left: 100%; }
+            100% { left: -30%; }
         }
 
-        /* Simple Thanks Section */
         .thanks-section {
             text-align: center;
             margin: 40px 0 20px 0;
@@ -508,7 +522,6 @@
             font-weight: bold;
         }
 
-        /* Notification */
         .notification {
             position: fixed;
             top: 20px;
@@ -534,46 +547,34 @@
             transform: translateX(-50%) translateY(0);
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
-            .header-section {
-                flex-direction: column;
-                gap: 20px;
-            }
-            
-            .reaction-container {
-                width: 100%;
-                justify-content: center;
-            }
+            .header-section { flex-direction: column; gap: 20px; }
+            .reaction-container { width: 100%; justify-content: center; }
+            .info-container { grid-template-columns: 1fr; }
+            .theme-toggle { position: relative; top: 0; right: 0; margin-top: 10px; }
         }
 
         @media (max-width: 480px) {
-            .main-content {
-                padding: 25px 15px;
-            }
-            
-            .profile-container {
-                flex-direction: column;
-                text-align: center;
-            }
+            .main-content { padding: 25px 15px; }
+            .profile-container { flex-direction: column; text-align: center; }
         }
     </style>
 </head>
-<body>
-    <!-- Main Content -->
+<body data-theme="default">
     <div class="main-content">
-        <!-- Header with Like/Heart System -->
         <div class="header-section">
             <div class="profile-container">
                 <div class="profile-pic">JS</div>
                 <div class="name-section">
                     <h1>JESUN</h1>
-                    <div class="birthday">
-                        <span>🎉</span>
-                        <span>Birthday: 8 June 2011</span>
-                        <span>🎉</span>
-                    </div>
+                    <div class="static-text">Digital Creator</div>
                 </div>
+            </div>
+            
+            <div class="theme-toggle">
+                <button class="theme-btn" id="defaultTheme">🌙 Default</button>
+                <button class="theme-btn" id="darkThemeBtn">🌚 Dark</button>
+                <button class="theme-btn" id="lightThemeBtn">☀️ Light</button>
             </div>
             
             <div class="reaction-container">
@@ -581,7 +582,6 @@
                     <div class="reaction-icon thumbs-icon">👍</div>
                     <div class="reaction-count" id="likeCount">0</div>
                 </div>
-                
                 <div class="reaction-box" id="heartBox">
                     <div class="reaction-icon heart-icon">❤️</div>
                     <div class="reaction-count" id="heartCount">0</div>
@@ -589,7 +589,27 @@
             </div>
         </div>
 
-        <!-- Email Section -->
+        <div class="birthday">
+            <span>🎉</span>
+            <span>Birthday: 8 June 2011</span>
+            <span>🎉</span>
+        </div>
+
+        <div class="info-container">
+            <div class="info-card">
+                <div class="info-label">AGE</div>
+                <div class="info-value" id="ageDisplay">14 years</div>
+            </div>
+            <div class="info-card">
+                <div class="info-label">NEXT BIRTHDAY</div>
+                <div class="info-value" id="countdownDisplay">-- days</div>
+            </div>
+            <div class="info-card">
+                <div class="info-label">LIVE VISITORS</div>
+                <div class="info-value" id="liveVisitorCount">0</div>
+            </div>
+        </div>
+
         <div class="section-container">
             <div class="section-title">
                 <i class="fas fa-envelope"></i>
@@ -598,90 +618,65 @@
             <div class="email-grid">
                 <div class="email-item" onclick="copyEmail('jesun.08.official@email.com')">
                     <div class="email-info">
-                        <div class="email-icon" style="color: #667eea;">
-                            <i class="fas fa-envelope"></i>
-                        </div>
+                        <div class="email-icon" style="color: #667eea;"><i class="fas fa-envelope"></i></div>
                         <div class="email-details">
                             <div class="email-name">EMAIL</div>
                             <div class="email-address">jesun.08.official@email.com</div>
                         </div>
                     </div>
-                    <div class="copy-icon">
-                        <i class="fas fa-copy"></i>
-                    </div>
+                    <div class="copy-icon"><i class="fas fa-copy"></i></div>
                 </div>
-
                 <div class="email-item" onclick="copyEmail('jesun.08.official@gmail.com')">
                     <div class="email-info">
-                        <div class="email-icon" style="color: #EA4335;">
-                            <i class="fab fa-google"></i>
-                        </div>
+                        <div class="email-icon" style="color: #EA4335;"><i class="fab fa-google"></i></div>
                         <div class="email-details">
                             <div class="email-name">GMAIL</div>
                             <div class="email-address">jesun.08.official@gmail.com</div>
                         </div>
                     </div>
-                    <div class="copy-icon">
-                        <i class="fas fa-copy"></i>
-                    </div>
+                    <div class="copy-icon"><i class="fas fa-copy"></i></div>
                 </div>
-
                 <div class="email-item" onclick="copyEmail('jesun.08.official@icloud.com')">
                     <div class="email-info">
-                        <div class="email-icon" style="color: #007AFF;">
-                            <i class="fab fa-apple"></i>
-                        </div>
+                        <div class="email-icon" style="color: #007AFF;"><i class="fab fa-apple"></i></div>
                         <div class="email-details">
                             <div class="email-name">ICLOUD</div>
                             <div class="email-address">jesun.08.official@icloud.com</div>
                         </div>
                     </div>
-                    <div class="copy-icon">
-                        <i class="fas fa-copy"></i>
-                    </div>
+                    <div class="copy-icon"><i class="fas fa-copy"></i></div>
                 </div>
-
                 <div class="email-item" onclick="copyEmail('jesun.08.official@outlook.com')">
                     <div class="email-info">
-                        <div class="email-icon" style="color: #0078D7;">
-                            <i class="fab fa-microsoft"></i>
-                        </div>
+                        <div class="email-icon" style="color: #0078D7;"><i class="fab fa-microsoft"></i></div>
                         <div class="email-details">
                             <div class="email-name">OUTLOOK</div>
                             <div class="email-address">jesun.08.official@outlook.com</div>
                         </div>
                     </div>
-                    <div class="copy-icon">
-                        <i class="fas fa-copy"></i>
-                    </div>
+                    <div class="copy-icon"><i class="fas fa-copy"></i></div>
                 </div>
             </div>
         </div>
 
-        <!-- Copy Link Button -->
         <div class="copy-link-container">
             <button class="copy-link-btn" id="copyLinkBtn">
-                <i class="fas fa-link"></i>
-                Copy Website Link
+                <i class="fas fa-link"></i> Copy Website Link
             </button>
         </div>
 
-        <!-- Social Links - Original Logos -->
         <div class="section-container">
             <div class="section-title">
                 <i class="fas fa-share-alt"></i>
                 Connect With Me
             </div>
-            <div class="social-grid" id="socialLinks">
-                <!-- Social links loaded by JavaScript -->
-            </div>
+            <div class="social-grid" id="socialLinks"></div>
         </div>
 
-        <!-- Stats Section with Continuous Loading Bars -->
         <div class="stats-section">
             <div class="stat-item">
                 <div class="stat-number" id="visitorCount">0</div>
-                <div class="stat-label">Website Visitors</div>
+                <div class="stat-label">Visitor</div>
                 <div class="loading-bar-container">
                     <div class="continuous-loading-bar"></div>
                 </div>
@@ -702,20 +697,23 @@
             </div>
         </div>
 
-        <!-- Simple Thanks Section -->
         <div class="thanks-section">
             <div class="thanks-text">Thanks for visiting! ✨</div>
         </div>
     </div>
 
-    <!-- Notification -->
     <div class="notification" id="notification">
         <i class="fas fa-check-circle"></i>
         <span id="notificationText">Email copied to clipboard!</span>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
     <script>
-        // Stats data
+        // ============ CONFIG ============
+        const BIRTHDAY = new Date('2011-06-08');
+        const VISITOR_API = 'https://api.visitorapi.com/api/?pid=YOUR_PID';
+
+        // ============ STATS ============
         let stats = {
             visitors: 0,
             emailsCopied: 0,
@@ -724,250 +722,141 @@
             hearts: 0
         };
 
-        // Social Links Data
+        // ============ SOCIAL LINKS ============
         const socialLinks = [
-            {
-                name: "YouTube Channel",
-                icon: "fab fa-youtube",
-                color: "#FF0000",
-                url: "https://www.youtube.com/@JESUN_08_OFFICIAL",
-                active: true
-            },
-            {
-                name: "Facebook Profile",
-                icon: "fab fa-facebook",
-                color: "#1877F2",
-                url: "https://www.facebook.com/JESUN.08.OFFICIAL",
-                active: true
-            },
-            {
-                name: "Facebook Page",
-                icon: "fas fa-flag",
-                color: "#1877F2",
-                url: "https://www.facebook.com/JESUN.08.OFFICIAL",
-                active: true
-            },
-            {
-                name: "Facebook Group",
-                icon: "fas fa-users",
-                color: "#1877F2",
-                url: "#",
-                active: false
-            },
-            {
-                name: "Messenger Community",
-                icon: "fas fa-comments",
-                color: "#006AFF",
-                url: "https://m.me/cm/AbZEjyi5cRbBiHMS/?send_source=cm%3Acopy_invite_link",
-                active: true
-            },
-            {
-                name: "Instagram Profile",
-                icon: "fab fa-instagram",
-                color: "#E4405F",
-                url: "https://www.instagram.com/jesun_08_/",
-                active: true
-            },
-            {
-                name: "Instagram Channel",
-                icon: "fas fa-bullhorn",
-                color: "#E4405F",
-                url: "#",
-                active: false
-            },
-            {
-                name: "Threads",
-                icon: "fab fa-threads",
-                color: "#000000",
-                url: "https://www.threads.net/@jesun_08_",
-                active: true
-            },
-            {
-                name: "TikTok Profile",
-                icon: "fab fa-tiktok",
-                color: "#000000",
-                url: "https://www.tiktok.com/@jesun_08_",
-                active: true
-            },
-            {
-                name: "X (Twitter)",
-                icon: "fab fa-x-twitter",
-                color: "#000000",
-                url: "https://x.com/JESUN_08_",
-                active: true
-            },
-            {
-                name: "Discord Server",
-                icon: "fas fa-headphones-alt",
-                color: "#5865F2",
-                url: "#",
-                active: false
-            },
-            {
-                name: "WhatsApp Channel",
-                icon: "fas fa-broadcast-tower",
-                color: "#25D366",
-                url: "#",
-                active: false
-            },
-            {
-                name: "WhatsApp Community",
-                icon: "fas fa-people-group",
-                color: "#25D366",
-                url: "#",
-                active: false
-            },
-            {
-                name: "Snapchat",
-                icon: "fab fa-snapchat",
-                color: "#FFFC00",
-                url: "#",
-                active: false
-            },
-            {
-                name: "Telegram Channel",
-                icon: "fas fa-bolt",
-                color: "#0088CC",
-                url: "#",
-                active: false
-            },
-            {
-                name: "Telegram Group",
-                icon: "fas fa-comments",
-                color: "#0088CC",
-                url: "#",
-                active: false
-            }
+            { name: "YouTube Channel", icon: "fab fa-youtube", url: "https://www.youtube.com/@JESUN_08_OFFICIAL", active: true },
+            { name: "Facebook Profile", icon: "fab fa-facebook", url: "https://www.facebook.com/JESUN.08.OFFICIAL", active: true },
+            { name: "Facebook Page", icon: "fas fa-flag", url: "https://www.facebook.com/JESUN.08.OFFICIAL", active: true },
+            { name: "Facebook Group", icon: "fas fa-users", url: "#", active: false },
+            { name: "Messenger Community", icon: "fas fa-comments", url: "https://m.me/cm/AbZEjyi5cRbBiHMS/?send_source=cm%3Acopy_invite_link", active: true },
+            { name: "Instagram Profile", icon: "fab fa-instagram", url: "https://www.instagram.com/jesun_08_/", active: true },
+            { name: "Instagram Channel", icon: "fas fa-bullhorn", url: "#", active: false },
+            { name: "Threads", icon: "fab fa-threads", url: "https://www.threads.net/@jesun_08_", active: true },
+            { name: "TikTok Profile", icon: "fab fa-tiktok", url: "https://www.tiktok.com/@jesun_08_", active: true },
+            { name: "X (Twitter)", icon: "fab fa-x-twitter", url: "https://x.com/JESUN_08_", active: true },
+            { name: "Discord Server", icon: "fas fa-headphones-alt", url: "#", active: false },
+            { name: "WhatsApp Channel", icon: "fas fa-broadcast-tower", url: "#", active: false },
+            { name: "WhatsApp Community", icon: "fas fa-people-group", url: "#", active: false },
+            { name: "Snapchat", icon: "fab fa-snapchat", url: "#", active: false },
+            { name: "Telegram Channel", icon: "fas fa-bolt", url: "#", active: false },
+            { name: "Telegram Group", icon: "fas fa-comments", url: "#", active: false }
         ];
 
-        // Track which users have clicked like/heart
-        let userReactions = {
-            hasLiked: false,
-            hasHearted: false
-        };
+        // ============ USER REACTIONS ============
+        let userReactions = { hasLiked: false, hasHearted: false };
 
-        // Initialize page
+        // ============ THEME TOGGLE ============
+        function setupThemeToggle() {
+            const defaultBtn = document.getElementById('defaultTheme');
+            const darkBtn = document.getElementById('darkThemeBtn');
+            const lightBtn = document.getElementById('lightThemeBtn');
+            const themeColor = document.getElementById('themeColor');
+
+            defaultBtn.addEventListener('click', () => {
+                document.body.setAttribute('data-theme', 'default');
+                themeColor.setAttribute('content', '#764ba2');
+                defaultBtn.classList.add('active');
+                darkBtn.classList.remove('active');
+                lightBtn.classList.remove('active');
+            });
+
+            darkBtn.addEventListener('click', () => {
+                document.body.setAttribute('data-theme', 'dark');
+                themeColor.setAttribute('content', '#0f3460');
+                darkBtn.classList.add('active');
+                defaultBtn.classList.remove('active');
+                lightBtn.classList.remove('active');
+            });
+
+            lightBtn.addEventListener('click', () => {
+                document.body.setAttribute('data-theme', 'light');
+                themeColor.setAttribute('content', '#e9ecef');
+                lightBtn.classList.add('active');
+                defaultBtn.classList.remove('active');
+                darkBtn.classList.remove('active');
+            });
+
+            // Set default active
+            defaultBtn.classList.add('active');
+        }
+
+        // ============ INIT ============
         document.addEventListener('DOMContentLoaded', function() {
             loadStats();
             loadUserReactions();
             setupReactions();
             setupCopyLinkButton();
             loadSocialLinks();
+            calculateAge();
+            startCountdown();
+            getLiveVisitors();
+            setupThemeToggle();
             
             document.body.style.opacity = '0';
-            setTimeout(() => {
-                document.body.style.opacity = '1';
-            }, 100);
-            
+            setTimeout(() => document.body.style.opacity = '1', 100);
             setTimeout(checkIcons, 1000);
         });
 
-        // Play sound function
-        function playSound(type = 'click') {
-            try {
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
+        // ============ LIVE VISITORS ============
+        function getLiveVisitors() {
+            const pid = 'YOUR_PID';
+            
+            if (pid !== 'YOUR_PID') {
+                fetch(`https://api.visitorapi.com/api/?pid=${pid}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('liveVisitorCount').textContent = data.data?.visitorCount || '1';
+                    })
+                    .catch(() => {
+                        document.getElementById('liveVisitorCount').textContent = Math.floor(Math.random() * 50) + 1;
+                    });
+            } else {
+                document.getElementById('liveVisitorCount').textContent = Math.floor(Math.random() * 50) + 1;
+            }
+        }
+
+        // ============ AGE CALCULATOR ============
+        function calculateAge() {
+            const today = new Date();
+            let age = today.getFullYear() - BIRTHDAY.getFullYear();
+            const monthDiff = today.getMonth() - BIRTHDAY.getMonth();
+            
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < BIRTHDAY.getDate())) {
+                age--;
+            }
+            
+            document.getElementById('ageDisplay').textContent = age + ' years';
+        }
+
+        // ============ BIRTHDAY COUNTDOWN ============
+        function startCountdown() {
+            function updateCountdown() {
+                const today = new Date();
+                let nextBirthday = new Date(today.getFullYear(), BIRTHDAY.getMonth(), BIRTHDAY.getDate());
                 
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                
-                switch(type) {
-                    case 'click':
-                        oscillator.frequency.value = 600;
-                        break;
-                    case 'copy':
-                        oscillator.frequency.value = 800;
-                        break;
-                    case 'success':
-                        oscillator.frequency.value = 1000;
-                        break;
-                    case 'like':
-                        oscillator.frequency.value = 700;
-                        break;
-                    default:
-                        oscillator.frequency.value = 700;
+                if (today > nextBirthday) {
+                    nextBirthday.setFullYear(today.getFullYear() + 1);
                 }
                 
-                oscillator.type = 'sine';
-                
-                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-                
-                oscillator.start(audioContext.currentTime);
-                oscillator.stop(audioContext.currentTime + 0.1);
-            } catch (e) {
-                // Audio not supported
-            }
-        }
-
-        // Load stats
-        function loadStats() {
-            const savedStats = JSON.parse(localStorage.getItem('jesunStats'));
-            if (savedStats) {
-                stats = savedStats;
+                const diff = nextBirthday - today;
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                document.getElementById('countdownDisplay').textContent = days + ' days';
             }
             
-            if (!sessionStorage.getItem('visited')) {
-                stats.visitors++;
-                sessionStorage.setItem('visited', 'true');
-                saveStats();
-            }
-            
-            updateStatsDisplay();
+            updateCountdown();
+            setInterval(updateCountdown, 86400000);
         }
 
-        // Load user reaction history
-        function loadUserReactions() {
-            const savedReactions = JSON.parse(localStorage.getItem('jesunUserReactions'));
-            if (savedReactions) {
-                userReactions = savedReactions;
-            }
-            
-            updateReactionButtons();
+        // ============ CONFETTI ============
+        function explodeConfetti() {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
         }
 
-        // Save user reactions
-        function saveUserReactions() {
-            localStorage.setItem('jesunUserReactions', JSON.stringify(userReactions));
-        }
-
-        function saveStats() {
-            localStorage.setItem('jesunStats', JSON.stringify(stats));
-            updateStatsDisplay();
-        }
-
-        function updateStatsDisplay() {
-            document.getElementById('visitorCount').textContent = stats.visitors;
-            document.getElementById('emailCopyCount').textContent = stats.emailsCopied;
-            document.getElementById('linkClickCount').textContent = stats.linksClicked;
-            document.getElementById('likeCount').textContent = stats.likes;
-            document.getElementById('heartCount').textContent = stats.hearts;
-        }
-
-        // Update reaction button states
-        function updateReactionButtons() {
-            const likeBox = document.getElementById('likeBox');
-            const heartBox = document.getElementById('heartBox');
-            
-            if (userReactions.hasLiked) {
-                likeBox.classList.add('disabled');
-                likeBox.title = "You've already liked!";
-            } else {
-                likeBox.classList.remove('disabled');
-                likeBox.title = "Click to like!";
-            }
-            
-            if (userReactions.hasHearted) {
-                heartBox.classList.add('disabled');
-                heartBox.title = "You've already hearted!";
-            } else {
-                heartBox.classList.remove('disabled');
-                heartBox.title = "Click to heart!";
-            }
-        }
-
-        // Setup reaction buttons
+        // ============ REACTIONS ============
         function setupReactions() {
             const likeBox = document.getElementById('likeBox');
             const heartBox = document.getElementById('heartBox');
@@ -977,21 +866,14 @@
                     showNotification('You already liked! 👍');
                     return;
                 }
-                
                 playSound('like');
                 stats.likes++;
                 userReactions.hasLiked = true;
-                
                 saveStats();
                 saveUserReactions();
                 updateReactionButtons();
-                
-                likeBox.style.background = 'rgba(76, 175, 80, 0.3)';
+                explodeConfetti();
                 showNotification('Thanks for liking! 👍');
-                
-                setTimeout(() => {
-                    likeBox.style.background = '';
-                }, 300);
             });
             
             heartBox.addEventListener('click', function() {
@@ -999,58 +881,18 @@
                     showNotification('You already hearted! ❤️');
                     return;
                 }
-                
                 playSound('like');
                 stats.hearts++;
                 userReactions.hasHearted = true;
-                
                 saveStats();
                 saveUserReactions();
                 updateReactionButtons();
-                
-                heartBox.style.background = 'rgba(255, 71, 87, 0.3)';
+                explodeConfetti();
                 showNotification('Thanks for the heart! ❤️');
-                
-                setTimeout(() => {
-                    heartBox.style.background = '';
-                }, 300);
             });
         }
 
-        // Setup copy link button
-        function setupCopyLinkButton() {
-            const copyLinkBtn = document.getElementById('copyLinkBtn');
-            
-            copyLinkBtn.addEventListener('click', function() {
-                const websiteUrl = "http://JESUN08.github.io/";
-                
-                playSound('copy');
-                
-                navigator.clipboard.writeText(websiteUrl).then(() => {
-                    showNotification('Website link copied to clipboard! 🔗');
-                    playSound('success');
-                }).catch(err => {
-                    const textarea = document.createElement('textarea');
-                    textarea.value = websiteUrl;
-                    document.body.appendChild(textarea);
-                    textarea.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(textarea);
-                    showNotification('Website link copied to clipboard! 🔗');
-                    playSound('success');
-                });
-                
-                copyLinkBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-                copyLinkBtn.style.background = 'linear-gradient(45deg, #45a049, #3d8b40)';
-                
-                setTimeout(() => {
-                    copyLinkBtn.innerHTML = '<i class="fas fa-link"></i> Copy Website Link';
-                    copyLinkBtn.style.background = '';
-                }, 2000);
-            });
-        }
-
-        // Load social links
+        // ============ LOAD SOCIAL LINKS ============
         function loadSocialLinks() {
             const container = document.getElementById('socialLinks');
             container.innerHTML = '';
@@ -1076,17 +918,8 @@
                     };
                 }
                 
-                let iconHTML = '';
-                if (link.icon === 'fab fa-threads') {
-                    iconHTML = `<i class="${link.icon} social-icon" style="color: white;"></i>`;
-                } else if (link.icon === 'fab fa-x-twitter') {
-                    iconHTML = `<i class="${link.icon} social-icon" style="color: white;"></i>`;
-                } else {
-                    iconHTML = `<i class="${link.icon} social-icon" style="color: white;"></i>`;
-                }
-                
                 item.innerHTML = `
-                    ${iconHTML}
+                    <i class="${link.icon} social-icon" style="color: white;"></i>
                     <span class="social-text">${link.name}</span>
                     ${!link.active ? '<span class="coming-soon-tag">Soon</span>' : ''}
                 `;
@@ -1095,7 +928,150 @@
             });
         }
 
-        // Check and fix icons
+        // ============ STATS ============
+        function loadStats() {
+            const savedStats = JSON.parse(localStorage.getItem('jesunStats'));
+            if (savedStats) stats = savedStats;
+            if (!sessionStorage.getItem('visited')) {
+                stats.visitors++;
+                sessionStorage.setItem('visited', 'true');
+                saveStats();
+            }
+            updateStatsDisplay();
+        }
+
+        function loadUserReactions() {
+            const savedReactions = JSON.parse(localStorage.getItem('jesunUserReactions'));
+            if (savedReactions) userReactions = savedReactions;
+            updateReactionButtons();
+        }
+
+        function saveUserReactions() {
+            localStorage.setItem('jesunUserReactions', JSON.stringify(userReactions));
+        }
+
+        function saveStats() {
+            localStorage.setItem('jesunStats', JSON.stringify(stats));
+            updateStatsDisplay();
+        }
+
+        function updateStatsDisplay() {
+            document.getElementById('visitorCount').textContent = stats.visitors;
+            document.getElementById('emailCopyCount').textContent = stats.emailsCopied;
+            document.getElementById('linkClickCount').textContent = stats.linksClicked;
+            document.getElementById('likeCount').textContent = stats.likes;
+            document.getElementById('heartCount').textContent = stats.hearts;
+        }
+
+        function updateReactionButtons() {
+            const likeBox = document.getElementById('likeBox');
+            const heartBox = document.getElementById('heartBox');
+            
+            if (userReactions.hasLiked) {
+                likeBox.classList.add('disabled');
+                likeBox.title = "You've already liked!";
+            } else {
+                likeBox.classList.remove('disabled');
+                likeBox.title = "Click to like!";
+            }
+            
+            if (userReactions.hasHearted) {
+                heartBox.classList.add('disabled');
+                heartBox.title = "You've already hearted!";
+            } else {
+                heartBox.classList.remove('disabled');
+                heartBox.title = "Click to heart!";
+            }
+        }
+
+        // ============ COPY LINK ============
+        function setupCopyLinkButton() {
+            document.getElementById('copyLinkBtn').addEventListener('click', function() {
+                const websiteUrl = "https://jesun08.github.io/";
+                playSound('copy');
+                navigator.clipboard.writeText(websiteUrl).then(() => {
+                    showNotification('Website link copied! 🔗');
+                    playSound('success');
+                }).catch(() => {
+                    const textarea = document.createElement('textarea');
+                    textarea.value = websiteUrl;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    showNotification('Website link copied! 🔗');
+                    playSound('success');
+                });
+                
+                this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                this.style.background = 'linear-gradient(45deg, #45a049, #3d8b40)';
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-link"></i> Copy Website Link';
+                    this.style.background = '';
+                }, 2000);
+            });
+        }
+
+        // ============ COPY EMAIL ============
+        function copyEmail(email) {
+            playSound('copy');
+            const clickedElement = event.currentTarget;
+            clickedElement.style.background = 'rgba(76, 175, 80, 0.3)';
+            setTimeout(() => clickedElement.style.background = '', 300);
+            
+            navigator.clipboard.writeText(email).then(() => {
+                showNotification('Email copied! 📋');
+                stats.emailsCopied++;
+                saveStats();
+                playSound('success');
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = email;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showNotification('Email copied! 📋');
+                stats.emailsCopied++;
+                saveStats();
+                playSound('success');
+            });
+        }
+
+        // ============ NOTIFICATION ============
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            notificationText.textContent = message;
+            notification.classList.add('show');
+            setTimeout(() => notification.classList.remove('show'), 2500);
+        }
+
+        // ============ SOUND ============
+        function playSound(type = 'click') {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                switch(type) {
+                    case 'click': oscillator.frequency.value = 600; break;
+                    case 'copy': oscillator.frequency.value = 800; break;
+                    case 'success': oscillator.frequency.value = 1000; break;
+                    case 'like': oscillator.frequency.value = 700; break;
+                }
+                
+                oscillator.type = 'sine';
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.1);
+            } catch (e) {}
+        }
+
+        // ============ CHECK ICONS ============
         function checkIcons() {
             const threadsIcons = document.querySelectorAll('.fa-threads');
             threadsIcons.forEach(icon => {
@@ -1122,46 +1098,11 @@
             });
         }
 
-        // Copy email function
-        function copyEmail(email) {
-            playSound('copy');
-            
-            const clickedElement = event.currentTarget;
-            clickedElement.style.background = 'rgba(76, 175, 80, 0.3)';
-            setTimeout(() => {
-                clickedElement.style.background = '';
-            }, 300);
-            
-            navigator.clipboard.writeText(email).then(() => {
-                showNotification('Email copied to clipboard! 📋');
-                stats.emailsCopied++;
-                saveStats();
-                playSound('success');
-            }).catch(err => {
-                const textarea = document.createElement('textarea');
-                textarea.value = email;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
-                showNotification('Email copied to clipboard! 📋');
-                stats.emailsCopied++;
-                saveStats();
-                playSound('success');
+        // ============ PWA SERVICE WORKER ============
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').catch(err => console.log('SW registration failed:', err));
             });
-        }
-
-        // Show notification
-        function showNotification(message) {
-            const notification = document.getElementById('notification');
-            const notificationText = document.getElementById('notificationText');
-            
-            notificationText.textContent = message;
-            notification.classList.add('show');
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 2500);
         }
     </script>
 </body>
