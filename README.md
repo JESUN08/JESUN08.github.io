@@ -1,6 +1,6 @@
 JESUN
-Gamer · Editor · Programmer · Tech Learner
-Personal link-in-bio website — fast, PWA-ready, and connected to real-time stats via Supabase.
+Gamer · Editor · Programmer · Tech Grinder
+Building, breaking, learning and grinding — every single day.
 🌐 Live site: jesun08.github.io
 ✨ Features
 🎨 Dark neon design with 3 themes (Default, Dark, Light)
@@ -14,7 +14,7 @@ Personal link-in-bio website — fast, PWA-ready, and connected to real-time sta
 Platform
 Link
 YouTube
-@JESUN_08_OFFICIAL
+YouTube Profile
 Facebook Profile
 jesun.08.official
 Facebook Page
