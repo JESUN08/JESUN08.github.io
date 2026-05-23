@@ -1,32 +1,28 @@
-const CACHE = "jesun-v5";
-const FILES = [
+const CACHE_NAME = "jesun-v3";
+const urlsToCache = [
   "/",
   "/index.html",
   "/icons/android-chrome-192x192.png",
-  "/icons/android-chrome-512x512.png",
-  "/icons/apple-touch-icon.png",
-  "/icons/favicon-32x32.png",
-  "/icons/favicon-16x16.png",
-  "/icons/favicon.ico",
-  "/icons/IMG-20260508-WA0005.jpg"
+  "/icons/favicon.ico"
 ];
 
-self.addEventListener("install", e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)));
+self.addEventListener("install", (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(urlsToCache))
+  );
   self.skipWaiting();
 });
 
-self.addEventListener("activate", e => {
-  e.waitUntil(
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
     caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
+      Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
     )
   );
-  self.clients.claim();
 });
 
-self.addEventListener("fetch", e => {
-  e.respondWith(
-    caches.match(e.request).then(r => r || fetch(e.request).catch(() => caches.match("/index.html")))
+self.addEventListener("fetch", (event) => {
+  event.respondWith(
+    caches.match(event.request).then((response) => response || fetch(event.request))
   );
 });
