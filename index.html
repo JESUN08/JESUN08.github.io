@@ -5,1105 +5,761 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JESUN</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" id="themeColor" content="#764ba2">
-    
-    <!-- iOS Support -->
+    <meta name="theme-color" content="#080810">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="JESUN">
-    
-    <!-- Favicon - USING YOUR UPLOADED FILES -->
+
+    <!-- FIXED FAVICONS -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
     <link rel="icon" type="image/x-icon" href="/icons/favicon.ico">
-    <link rel="shortcut icon" href="/icons/favicon.ico">
-    <link rel="apple-touch-icon" href="/icons/android-chrome-192x192.png">
-    
+
+    <!-- SEO -->
+    <meta name="description" content="JESUN — Gamer, Editor, Programmer & Tech Learner. Find me on YouTube, Instagram, TikTok, Threads and more.">
+    <meta name="keywords" content="JESUN, jesun08, gamer, editor, programmer, content creator">
+    <meta property="og:title" content="JESUN">
+    <meta property="og:description" content="Gamer · Editor · Programmer · Tech Learner">
+    <meta property="og:image" content="https://jesun08.github.io/icons/android-chrome-512x512.png">
+    <meta property="og:url" content="https://jesun08.github.io">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
-        }
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
         :root {
-            --primary-color: #ff6b6b;
-            --secondary-color: #feca57;
-            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --card-bg: rgba(255, 255, 255, 0.1);
-            --text-color: white;
-            --border-color: rgba(255, 255, 255, 0.2);
+            --bg: #080810;
+            --bg2: #0e0e1c;
+            --bg3: #13132a;
+            --accent1: #c84bff;
+            --accent2: #ff4b8b;
+            --accent3: #4bf0ff;
+            --gold: #ffd166;
+            --text: #f0eeff;
+            --muted: #8888aa;
+            --card: rgba(255,255,255,0.04);
+            --border: rgba(255,255,255,0.07);
+            --glow1: rgba(200,75,255,0.15);
+            --glow2: rgba(255,75,139,0.15);
         }
 
         [data-theme="dark"] {
-            --primary-color: #ff6b6b;
-            --secondary-color: #feca57;
-            --bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            --card-bg: rgba(0, 0, 0, 0.3);
-            --text-color: #f0f0f0;
-            --border-color: rgba(255, 255, 255, 0.1);
+            --bg:#050508; --bg2:#0a0a0f; --bg3:#0f0f18;
+            --accent1:#a855f7; --accent2:#ec4899; --accent3:#22d3ee;
         }
 
         [data-theme="light"] {
-            --primary-color: #ff6b6b;
-            --secondary-color: #feca57;
-            --bg-gradient: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #dee2e6 100%);
-            --card-bg: rgba(255, 255, 255, 0.7);
-            --text-color: #212529;
-            --border-color: rgba(0, 0, 0, 0.1);
+            --bg:#f4f3ff; --bg2:#eeedf8; --bg3:#e5e3f5;
+            --card:rgba(0,0,0,0.04); --border:rgba(0,0,0,0.09);
+            --text:#1a1733; --muted:#6b6890;
+            --glow1:rgba(200,75,255,0.06); --glow2:rgba(255,75,139,0.06);
         }
+
+        html { scroll-behavior:smooth; }
 
         body {
-            background: var(--bg-gradient);
-            color: var(--text-color);
-            min-height: 100vh;
-            padding: 20px;
-            transition: background 0.3s ease, color 0.3s ease;
+            background:var(--bg); color:var(--text);
+            font-family:'DM Sans',sans-serif; font-size:16px;
+            line-height:1.6; overflow-x:hidden;
+            opacity:0; transition:opacity 0.4s ease;
+        }
+        body.loaded { opacity:1; }
+
+        body::before {
+            content:''; position:fixed; inset:0;
+            background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events:none; z-index:0; opacity:0.35;
         }
 
-        .main-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: var(--card-bg);
-            backdrop-filter: blur(15px);
-            border-radius: 25px;
-            padding: 40px 30px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--border-color);
+        .orb { position:fixed; border-radius:50%; filter:blur(120px); pointer-events:none; z-index:0; }
+        .orb1 { width:600px; height:600px; background:var(--glow1); top:-200px; left:-150px; }
+        .orb2 { width:500px; height:500px; background:var(--glow2); bottom:-100px; right:-100px; }
+        .orb3 { width:300px; height:300px; background:rgba(75,240,255,0.07); top:40%; left:45%; }
+
+        /* NAV */
+        nav {
+            position:fixed; top:0; left:0; right:0; z-index:100;
+            display:flex; align-items:center; justify-content:space-between;
+            padding:16px 60px;
+            background:rgba(8,8,16,0.8); backdrop-filter:blur(20px);
+            border-bottom:1px solid var(--border);
         }
 
-        /* Theme Toggle Buttons */
-        .theme-toggle {
-            display: flex;
-            gap: 10px;
-            position: absolute;
-            top: 30px;
-            right: 30px;
+        .nav-logo {
+            font-family:'Syne',sans-serif; font-size:1.5rem; font-weight:800;
+            background:linear-gradient(90deg,var(--accent1),var(--accent2));
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
         }
 
-        .theme-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid var(--border-color);
-            color: var(--text-color);
-            padding: 10px 15px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 0.9em;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
+        .theme-pills {
+            display:flex; gap:5px; background:var(--bg3);
+            border:1px solid var(--border); border-radius:30px; padding:4px;
         }
 
-        .theme-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
+        .theme-pill {
+            background:none; border:none; color:var(--muted);
+            font-size:0.78rem; font-weight:600; padding:5px 12px;
+            border-radius:20px; cursor:pointer; transition:all 0.2s;
+            font-family:'DM Sans',sans-serif;
+        }
+        .theme-pill.active, .theme-pill:hover {
+            background:linear-gradient(90deg,var(--accent1),var(--accent2)); color:white;
         }
 
-        .theme-btn.active {
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            color: white;
+        /* HERO */
+        .hero {
+            position:relative; z-index:1; min-height:100vh;
+            display:grid; grid-template-columns:1fr 1fr;
+            align-items:center; gap:60px;
+            padding:130px 60px 80px; max-width:1300px; margin:0 auto;
         }
 
-        .header-section {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid var(--border-color);
-            position: relative;
+        h1.hero-title {
+            font-family:'Syne',sans-serif;
+            font-size:clamp(3rem,5vw,5.5rem);
+            font-weight:800; line-height:1.0;
+            letter-spacing:-0.03em; margin-bottom:14px;
         }
 
-        .profile-container {
-            display: flex;
-            align-items: center;
-            gap: 20px;
+        .name-grad {
+            background:linear-gradient(135deg,var(--accent1) 0%,var(--accent2) 50%,var(--gold) 100%);
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
         }
 
-        .profile-pic {
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 36px;
-            font-weight: bold;
-            color: white;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-            animation: float 3s ease-in-out infinite;
-            position: relative;
-            overflow: hidden;
+        .role-tags {
+            display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); }
-            50% { transform: translateY(-10px); box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5); }
+        .role-tag {
+            display:inline-flex; align-items:center; gap:6px;
+            background:rgba(200,75,255,0.1); border:1px solid rgba(200,75,255,0.25);
+            color:var(--accent1); font-size:0.78rem; font-weight:600;
+            padding:5px 13px; border-radius:30px;
+            letter-spacing:0.05em; text-transform:uppercase;
         }
 
-        .profile-pic::before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--primary-color));
-            z-index: -1;
-            filter: blur(20px);
-            opacity: 0.3;
-            border-radius: 50%;
+        .role-tag.game { background:rgba(75,240,255,0.1); border-color:rgba(75,240,255,0.25); color:var(--accent3); }
+        .role-tag.edit { background:rgba(255,75,139,0.1); border-color:rgba(255,75,139,0.25); color:var(--accent2); }
+        .role-tag.prog { background:rgba(200,75,255,0.1); border-color:rgba(200,75,255,0.25); color:var(--accent1); }
+        .role-tag.tech { background:rgba(255,209,102,0.1); border-color:rgba(255,209,102,0.25); color:var(--gold); }
+
+        .hero-sub {
+            color:var(--muted); font-size:1rem; max-width:420px;
+            margin-bottom:32px; line-height:1.7;
         }
 
-        .name-section {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+        .hero-actions { display:flex; gap:12px; flex-wrap:wrap; }
+
+        .btn-primary {
+            display:inline-flex; align-items:center; gap:9px;
+            background:linear-gradient(135deg,var(--accent1),var(--accent2));
+            color:white; padding:13px 28px; border-radius:50px;
+            font-weight:600; font-size:0.93rem; border:none; cursor:pointer;
+            transition:all 0.3s; box-shadow:0 0 28px rgba(200,75,255,0.3);
+            font-family:'DM Sans',sans-serif; text-decoration:none;
+        }
+        .btn-primary:hover { transform:translateY(-2px); box-shadow:0 0 45px rgba(200,75,255,0.5); }
+
+        .btn-ghost {
+            display:inline-flex; align-items:center; gap:9px;
+            background:transparent; color:var(--text);
+            padding:13px 28px; border-radius:50px;
+            font-weight:600; font-size:0.93rem;
+            border:1px solid var(--border); cursor:pointer;
+            transition:all 0.3s; font-family:'DM Sans',sans-serif; text-decoration:none;
+        }
+        .btn-ghost:hover { border-color:var(--accent1); color:var(--accent1); background:rgba(200,75,255,0.06); }
+
+        /* PROFILE */
+        .hero-right { display:flex; flex-direction:column; align-items:center; gap:22px; }
+
+        .profile-ring-wrap { position:relative; width:260px; height:260px; }
+
+        .profile-ring {
+            position:absolute; inset:-4px; border-radius:50%;
+            background:conic-gradient(var(--accent1),var(--accent2),var(--accent3),var(--accent1));
+            animation:spinRing 4s linear infinite;
+        }
+        @keyframes spinRing { to{transform:rotate(360deg)} }
+
+        .profile-ring-inner { position:absolute; inset:4px; border-radius:50%; background:var(--bg); }
+
+        .profile-avatar {
+            position:absolute; inset:8px; border-radius:50%;
+            background:linear-gradient(135deg,var(--accent1),var(--accent2));
+            display:flex; align-items:center; justify-content:center;
+            font-family:'Syne',sans-serif; font-size:2.4rem; font-weight:800; color:white;
+            overflow:hidden; animation:floatAvatar 4s ease-in-out infinite;
+        }
+        @keyframes floatAvatar { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+
+        .profile-avatar img {
+            width:100%; height:100%; object-fit:cover; border-radius:50%;
         }
 
-        h1 {
-            font-size: 2.8em;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: glow 2s ease-in-out infinite alternate;
+        .reaction-row { display:flex; gap:12px; }
+
+        .reaction-pill {
+            display:flex; align-items:center; gap:9px;
+            background:var(--card); border:1px solid var(--border);
+            border-radius:50px; padding:10px 20px;
+            cursor:pointer; transition:all 0.3s; font-weight:600; font-size:1rem;
+        }
+        .reaction-pill:hover, .reaction-pill.reacted {
+            border-color:rgba(200,75,255,0.4);
+            background:rgba(200,75,255,0.08); transform:scale(1.05);
+        }
+        .reaction-pill .count { color:var(--gold); font-size:1.1rem; font-family:'Syne',sans-serif; font-weight:700; }
+
+        /* STATS */
+        .stats-bar {
+            position:relative; z-index:1;
+            border-top:1px solid var(--border); border-bottom:1px solid var(--border);
+            background:rgba(255,255,255,0.02);
+        }
+        .stats-inner {
+            max-width:1300px; margin:0 auto; padding:0 60px;
+            display:grid; grid-template-columns:repeat(4,1fr);
+        }
+        .stat-block {
+            padding:32px 0; text-align:center;
+            border-right:1px solid var(--border); position:relative;
+        }
+        .stat-block:last-child { border-right:none; }
+        .stat-num {
+            font-family:'Syne',sans-serif; font-size:2.4rem; font-weight:800;
+            background:linear-gradient(135deg,var(--accent1),var(--accent2));
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+            display:block; line-height:1; margin-bottom:8px;
+        }
+        .stat-label { font-size:0.8rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em; font-weight:500; }
+        .stat-glow {
+            position:absolute; bottom:0; left:20%; right:20%; height:2px;
+            background:linear-gradient(90deg,transparent,var(--accent1),transparent);
+            opacity:0; animation:statGlow 3s ease-in-out infinite;
+        }
+        .stat-block:nth-child(2) .stat-glow{animation-delay:0.5s}
+        .stat-block:nth-child(3) .stat-glow{animation-delay:1s}
+        .stat-block:nth-child(4) .stat-glow{animation-delay:1.5s}
+        @keyframes statGlow{0%,100%{opacity:0;transform:scaleX(0.5)}50%{opacity:1;transform:scaleX(1)}}
+
+        /* SECTIONS */
+        .section { position:relative; z-index:1; max-width:1300px; margin:0 auto; padding:70px 60px; }
+
+        .sec-label {
+            display:inline-flex; align-items:center; gap:10px;
+            font-size:0.75rem; font-weight:700; color:var(--accent1);
+            text-transform:uppercase; letter-spacing:0.15em; margin-bottom:12px;
+        }
+        .sec-label::before { content:''; display:block; width:22px; height:1px; background:var(--accent1); }
+
+        .sec-heading {
+            font-family:'Syne',sans-serif;
+            font-size:clamp(1.6rem,2.5vw,2.4rem);
+            font-weight:800; letter-spacing:-0.02em; margin-bottom:40px;
+        }
+        .sec-heading span {
+            background:linear-gradient(135deg,var(--accent1),var(--accent2));
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
         }
 
-        @keyframes glow {
-            from { text-shadow: 0 0 15px var(--primary-color); }
-            to { text-shadow: 0 0 25px var(--secondary-color); }
+        /* BIRTHDAY */
+        .bday-wrap { position:relative; z-index:1; max-width:1300px; margin:0 auto; padding:0 60px 60px; }
+        .bday-card {
+            background:linear-gradient(135deg,rgba(200,75,255,0.1),rgba(255,75,139,0.1));
+            border:1px solid rgba(200,75,255,0.22); border-radius:22px;
+            padding:28px 36px; display:flex; align-items:center;
+            justify-content:space-between; flex-wrap:wrap; gap:18px;
+        }
+        .bday-left { display:flex; align-items:center; gap:18px; }
+        .bday-icon { font-size:2.2rem; animation:bounce 1.5s ease-in-out infinite; }
+        @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+        .bday-info h3 { font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:700; color:var(--gold); margin-bottom:3px; }
+        .bday-info p { color:var(--muted); font-size:0.88rem; }
+        .bday-stats { display:flex; gap:14px; }
+        .bday-stat {
+            background:rgba(255,255,255,0.05); border:1px solid var(--border);
+            border-radius:14px; padding:14px 22px; text-align:center; min-width:100px;
+        }
+        .bday-stat .val { font-family:'Syne',sans-serif; font-size:1.5rem; font-weight:800; color:var(--accent3); }
+        .bday-stat .lbl { font-size:0.72rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; }
+
+        /* EMAILS */
+        .email-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:13px; }
+        .email-card {
+            display:flex; align-items:center; gap:14px;
+            background:var(--card); border:1px solid var(--border);
+            border-radius:16px; padding:18px 22px;
+            cursor:pointer; transition:all 0.3s; justify-content:space-between;
+        }
+        .email-card:hover {
+            border-color:rgba(200,75,255,0.35);
+            background:rgba(200,75,255,0.07); transform:translateY(-2px);
+        }
+        .email-left { display:flex; align-items:center; gap:14px; }
+        .email-ico {
+            width:42px; height:42px; border-radius:11px;
+            display:flex; align-items:center; justify-content:center;
+            font-size:1.15rem; background:rgba(255,255,255,0.07); flex-shrink:0;
+        }
+        .email-type { font-weight:700; font-size:0.88rem; color:var(--text); margin-bottom:2px; }
+        .email-addr { font-size:0.82rem; color:var(--muted); word-break:break-all; }
+        .copy-btn { color:var(--muted); font-size:0.95rem; transition:all 0.2s; flex-shrink:0; }
+        .email-card:hover .copy-btn { color:var(--accent1); transform:scale(1.2); }
+
+        /* COPY LINK */
+        .copy-link-wrap { text-align:center; padding:0 60px 60px; position:relative; z-index:1; max-width:1300px; margin:0 auto; }
+
+        /* SOCIALS */
+        .social-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:13px; }
+
+        .social-card {
+            display:flex; align-items:center; gap:11px;
+            padding:16px 18px; border-radius:16px;
+            text-decoration:none; color:white;
+            font-weight:600; font-size:0.9rem;
+            transition:all 0.3s; border:1px solid rgba(200,75,255,0.2);
+            background:linear-gradient(135deg,rgba(200,75,255,0.1),rgba(255,75,139,0.1));
+        }
+        .social-card:hover {
+            background:linear-gradient(135deg,var(--accent1),var(--accent2));
+            border-color:transparent; transform:translateY(-3px);
+            box-shadow:0 10px 28px rgba(200,75,255,0.35);
+        }
+        .social-icon-wrap {
+            width:36px; height:36px; border-radius:9px;
+            background:rgba(255,255,255,0.12);
+            display:flex; align-items:center; justify-content:center;
+            font-size:1.1rem; flex-shrink:0;
         }
 
-        /* Static Text - No Animation */
-        .static-text {
-            font-size: 1.2em;
-            color: var(--secondary-color);
-            margin-top: 5px;
+        /* FOOTER */
+        footer {
+            position:relative; z-index:1;
+            border-top:1px solid var(--border);
+            text-align:center; padding:26px 60px;
+            color:var(--muted); font-size:0.85rem;
+        }
+        footer span {
+            background:linear-gradient(90deg,var(--accent1),var(--accent2));
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:700;
         }
 
-        .reaction-container {
-            display: flex;
-            align-items: center;
-            gap: 25px;
+        /* TOAST */
+        .toast {
+            position:fixed; bottom:28px; left:50%;
+            transform:translateX(-50%) translateY(80px);
+            background:linear-gradient(135deg,var(--accent1),var(--accent2));
+            color:white; padding:13px 26px; border-radius:50px;
+            font-weight:600; font-size:0.92rem;
+            display:flex; align-items:center; gap:9px;
+            z-index:9999; opacity:0;
+            transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+            box-shadow:0 10px 35px rgba(200,75,255,0.4); white-space:nowrap;
         }
+        .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
 
-        .reaction-box {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 15px 20px;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            min-width: 120px;
-            border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
+        /* FADE IN */
+        .fi { opacity:0; transform:translateY(22px); transition:opacity 0.55s ease,transform 0.55s ease; }
+        .fi.vis { opacity:1; transform:translateY(0); }
+
+        /* RESPONSIVE */
+        @media(max-width:1024px){ .social-grid{grid-template-columns:repeat(3,1fr);} }
+        @media(max-width:900px){
+            nav{padding:14px 22px;}
+            .hero{grid-template-columns:1fr;padding:110px 22px 55px;text-align:center;}
+            .hero-right{order:-1;}
+            .hero-sub{margin:0 auto 28px;}
+            .hero-actions{justify-content:center;}
+            .role-tags{justify-content:center;}
+            .stats-inner{grid-template-columns:repeat(2,1fr);padding:0 22px;}
+            .stat-block:nth-child(2){border-right:none;}
+            .section{padding:55px 22px;}
+            .bday-wrap,.copy-link-wrap{padding-left:22px;padding-right:22px;}
+            .email-grid{grid-template-columns:1fr;}
+            .social-grid{grid-template-columns:repeat(2,1fr);}
+            .bday-card{flex-direction:column;}
+            footer{padding:22px;}
         }
-
-        .reaction-box:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-3px);
-        }
-
-        .reaction-box.disabled {
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-
-        .reaction-icon {
-            font-size: 1.8em;
-        }
-
-        .thumbs-icon { color: #4CAF50; }
-        .heart-icon { color: #ff4757; }
-
-        .reaction-count {
-            font-size: 1.4em;
-            font-weight: bold;
-            color: var(--secondary-color);
-        }
-
-        .birthday {
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            border-radius: 15px;
-            padding: 18px;
-            margin: 25px 0;
-            text-align: center;
-            font-size: 1.3em;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
-            color: white;
-        }
-
-        .info-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin: 25px 0;
-        }
-
-        .info-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            border: 1px solid var(--border-color);
-        }
-
-        .info-label {
-            font-size: 0.9em;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 10px;
-        }
-
-        .info-value {
-            font-size: 1.6em;
-            font-weight: bold;
-            color: var(--secondary-color);
-        }
-
-        .section-container {
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-            padding: 25px;
-            margin: 25px 0;
-            border: 1px solid var(--border-color);
-        }
-
-        .section-title {
-            font-size: 1.5em;
-            margin-bottom: 25px;
-            color: var(--secondary-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid rgba(254, 202, 87, 0.3);
-        }
-
-        .email-grid {
-            display: grid;
-            gap: 15px;
-        }
-
-        .email-item {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid var(--border-color);
-            border-radius: 15px;
-            padding: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .email-item:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .email-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            flex: 1;
-        }
-
-        .email-icon {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3em;
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .email-details { flex: 1; }
-        .email-name {
-            font-size: 1.1em;
-            font-weight: bold;
-            color: var(--text-color);
-            margin-bottom: 5px;
-        }
-        .email-address {
-            font-size: 0.95em;
-            color: rgba(255, 255, 255, 0.8);
-            word-break: break-all;
-        }
-
-        .copy-icon {
-            color: var(--secondary-color);
-            font-size: 1.2em;
-            padding: 8px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .email-item:hover .copy-icon {
-            color: var(--primary-color);
-            transform: scale(1.2);
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .social-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        @media (max-width: 1024px) { .social-grid { grid-template-columns: repeat(3, 1fr); } }
-        @media (max-width: 768px) { .social-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 480px) { .social-grid { grid-template-columns: 1fr; } }
-
-        .social-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 16px;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            border-radius: 15px;
-            text-decoration: none;
-            color: white;
-            transition: all 0.3s ease;
-            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
-        }
-
-        .social-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 30px rgba(255, 107, 107, 0.6);
-        }
-
-        .social-item.coming-soon {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            cursor: pointer;
-        }
-
-        .social-icon {
-            font-size: 1.4em;
-            min-width: 30px;
-            text-align: center;
-        }
-
-        .social-text {
-            flex: 1;
-            font-weight: bold;
-            font-size: 1em;
-        }
-
-        .coming-soon-tag {
-            background: rgba(255, 255, 255, 0.3);
-            color: white;
-            padding: 3px 10px;
-            border-radius: 10px;
-            font-size: 0.8em;
-            font-weight: bold;
-        }
-
-        .fa-headphones-alt, .fa-bolt, .fa-threads, .fa-x-twitter {
-            color: white !important;
-        }
-
-        .copy-link-container {
-            margin: 25px 0;
-            text-align: center;
-        }
-
-        .copy-link-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: linear-gradient(45deg, #4CAF50, #45a049);
-            color: white;
-            padding: 14px 28px;
-            border-radius: 15px;
-            border: none;
-            font-weight: bold;
-            font-size: 1em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
-        }
-
-        .copy-link-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(76, 175, 80, 0.4);
-            background: linear-gradient(45deg, #45a049, #3d8b40);
-        }
-
-        .stats-section {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin: 40px 0;
-        }
-
-        @media (max-width: 768px) { .stats-section { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 480px) { .stats-section { grid-template-columns: 1fr; } }
-
-        .stat-item {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 25px;
-            text-align: center;
-            border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
-        }
-
-        .stat-item:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateY(-5px);
-        }
-
-        .stat-number {
-            font-size: 2.2em;
-            font-weight: bold;
-            color: var(--secondary-color);
-            margin-bottom: 15px;
-        }
-
-        .stat-label {
-            font-size: 1.1em;
-            color: var(--text-color);
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        .loading-bar-container {
-            width: 100%;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            overflow: hidden;
-            margin-top: 10px;
-            position: relative;
-        }
-
-        .continuous-loading-bar {
-            height: 100%;
-            width: 30%;
-            background: linear-gradient(90deg, #FF8C00, #FFA500, #FFD700);
-            border-radius: 4px;
-            position: absolute;
-            animation: backAndForth 2s ease-in-out infinite;
-        }
-
-        @keyframes backAndForth {
-            0% { left: -30%; }
-            50% { left: 100%; }
-            100% { left: -30%; }
-        }
-
-        .thanks-section {
-            text-align: center;
-            margin: 40px 0 20px 0;
-            padding: 20px;
-        }
-
-        .thanks-text {
-            font-size: 1.3em;
-            color: var(--secondary-color);
-            font-weight: bold;
-        }
-
-        .notification {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%) translateY(-100px);
-            background: linear-gradient(45deg, #4CAF50, #45a049);
-            color: white;
-            padding: 15px 30px;
-            border-radius: 25px;
-            font-weight: bold;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-            opacity: 0;
-            transition: all 0.4s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .notification.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        @media (max-width: 768px) {
-            .header-section { flex-direction: column; gap: 20px; }
-            .reaction-container { width: 100%; justify-content: center; }
-            .info-container { grid-template-columns: 1fr; }
-            .theme-toggle { position: relative; top: 0; right: 0; margin-top: 10px; }
-        }
-
-        @media (max-width: 480px) {
-            .main-content { padding: 25px 15px; }
-            .profile-container { flex-direction: column; text-align: center; }
+        @media(max-width:480px){
+            .social-grid{grid-template-columns:1fr;}
+            .reaction-row{flex-direction:column;align-items:center;}
+            .bday-stats{flex-wrap:wrap;justify-content:center;}
         }
     </style>
 </head>
 <body data-theme="default">
-    <div class="main-content">
-        <div class="header-section">
-            <div class="profile-container">
-                <div class="profile-pic">JS</div>
-                <div class="name-section">
-                    <h1>JESUN</h1>
-                    <div class="static-text">Digital Creator</div>
-                </div>
-            </div>
-            
-            <div class="theme-toggle">
-                <button class="theme-btn" id="defaultTheme">🌙 Default</button>
-                <button class="theme-btn" id="darkThemeBtn">🌚 Dark</button>
-                <button class="theme-btn" id="lightThemeBtn">☀️ Light</button>
-            </div>
-            
-            <div class="reaction-container">
-                <div class="reaction-box" id="likeBox">
-                    <div class="reaction-icon thumbs-icon">👍</div>
-                    <div class="reaction-count" id="likeCount">0</div>
-                </div>
-                <div class="reaction-box" id="heartBox">
-                    <div class="reaction-icon heart-icon">❤️</div>
-                    <div class="reaction-count" id="heartCount">0</div>
-                </div>
-            </div>
-        </div>
 
-        <div class="birthday">
-            <span>🎉</span>
-            <span>Birthday: 8 June 2011</span>
-            <span>🎉</span>
-        </div>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
 
-        <div class="info-container">
-            <div class="info-card">
-                <div class="info-label">AGE</div>
-                <div class="info-value" id="ageDisplay">14 years</div>
-            </div>
-            <div class="info-card">
-                <div class="info-label">NEXT BIRTHDAY</div>
-                <div class="info-value" id="countdownDisplay">-- days</div>
-            </div>
-            <div class="info-card">
-                <div class="info-label">LIVE VISITORS</div>
-                <div class="info-value" id="liveVisitorCount">0</div>
-            </div>
-        </div>
+<!-- NAV -->
+<nav>
+    <div class="nav-logo">JESUN</div>
+    <div class="theme-pills">
+        <button class="theme-pill active" data-t="default">🌙 Default</button>
+        <button class="theme-pill" data-t="dark">🌚 Dark</button>
+        <button class="theme-pill" data-t="light">☀️ Light</button>
+    </div>
+</nav>
 
-        <div class="section-container">
-            <div class="section-title">
-                <i class="fas fa-envelope"></i>
-                Contact Emails
-            </div>
-            <div class="email-grid">
-                <div class="email-item" onclick="copyEmail('jesun.08.official@email.com')">
-                    <div class="email-info">
-                        <div class="email-icon" style="color: #667eea;"><i class="fas fa-envelope"></i></div>
-                        <div class="email-details">
-                            <div class="email-name">EMAIL</div>
-                            <div class="email-address">jesun.08.official@email.com</div>
-                        </div>
-                    </div>
-                    <div class="copy-icon"><i class="fas fa-copy"></i></div>
-                </div>
-                <div class="email-item" onclick="copyEmail('jesun.08.official@gmail.com')">
-                    <div class="email-info">
-                        <div class="email-icon" style="color: #EA4335;"><i class="fab fa-google"></i></div>
-                        <div class="email-details">
-                            <div class="email-name">GMAIL</div>
-                            <div class="email-address">jesun.08.official@gmail.com</div>
-                        </div>
-                    </div>
-                    <div class="copy-icon"><i class="fas fa-copy"></i></div>
-                </div>
-                <div class="email-item" onclick="copyEmail('jesun.08.official@icloud.com')">
-                    <div class="email-info">
-                        <div class="email-icon" style="color: #007AFF;"><i class="fab fa-apple"></i></div>
-                        <div class="email-details">
-                            <div class="email-name">ICLOUD</div>
-                            <div class="email-address">jesun.08.official@icloud.com</div>
-                        </div>
-                    </div>
-                    <div class="copy-icon"><i class="fas fa-copy"></i></div>
-                </div>
-                <div class="email-item" onclick="copyEmail('jesun.08.official@outlook.com')">
-                    <div class="email-info">
-                        <div class="email-icon" style="color: #0078D7;"><i class="fab fa-microsoft"></i></div>
-                        <div class="email-details">
-                            <div class="email-name">OUTLOOK</div>
-                            <div class="email-address">jesun.08.official@outlook.com</div>
-                        </div>
-                    </div>
-                    <div class="copy-icon"><i class="fas fa-copy"></i></div>
-                </div>
-            </div>
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-left fi">
+        <h1 class="hero-title"><span class="name-grad">JESUN</span></h1>
+        <div class="role-tags">
+            <span class="role-tag game"><i class="fas fa-gamepad"></i> Gamer</span>
+            <span class="role-tag edit"><i class="fas fa-film"></i> Editor</span>
+            <span class="role-tag prog"><i class="fas fa-code"></i> Programmer</span>
+            <span class="role-tag tech"><i class="fas fa-microchip"></i> Tech Learner</span>
         </div>
-
-        <div class="copy-link-container">
-            <button class="copy-link-btn" id="copyLinkBtn">
-                <i class="fas fa-link"></i> Copy Website Link
+        <p class="hero-sub">Building things, breaking things, and creating content along the way.</p>
+        <div class="hero-actions">
+            <button class="btn-primary" onclick="copyLink()">
+                <i class="fas fa-link"></i> Copy My Link
             </button>
-        </div>
-
-        <div class="section-container">
-            <div class="section-title">
-                <i class="fas fa-share-alt"></i>
-                Connect With Me
-            </div>
-            <div class="social-grid" id="socialLinks"></div>
-        </div>
-
-        <div class="stats-section">
-            <div class="stat-item">
-                <div class="stat-number" id="visitorCount">0</div>
-                <div class="stat-label">Visitor</div>
-                <div class="loading-bar-container">
-                    <div class="continuous-loading-bar"></div>
-                </div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number" id="emailCopyCount">0</div>
-                <div class="stat-label">Emails Copied</div>
-                <div class="loading-bar-container">
-                    <div class="continuous-loading-bar"></div>
-                </div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number" id="linkClickCount">0</div>
-                <div class="stat-label">Links Clicked</div>
-                <div class="loading-bar-container">
-                    <div class="continuous-loading-bar"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="thanks-section">
-            <div class="thanks-text">Thanks for visiting! ✨</div>
+            <a href="#social" class="btn-ghost">
+                <i class="fas fa-share-alt"></i> Find Me Online
+            </a>
         </div>
     </div>
 
-    <div class="notification" id="notification">
-        <i class="fas fa-check-circle"></i>
-        <span id="notificationText">Email copied to clipboard!</span>
+    <div class="hero-right fi" style="transition-delay:0.15s">
+        <div class="profile-ring-wrap">
+            <div class="profile-ring"></div>
+            <div class="profile-ring-inner"></div>
+            <div class="profile-avatar" id="avatarEl">
+                <img src="/icons/IMG-20260508-WA0005.jpg" alt="JESUN"
+                     onerror="this.style.display='none';this.parentNode.innerHTML='JS'">
+            </div>
+        </div>
+        <div class="reaction-row">
+            <div class="reaction-pill" id="likeBtn">
+                👍 <span class="count" id="likeCount">0</span>
+            </div>
+            <div class="reaction-pill" id="heartBtn">
+                ❤️ <span class="count" id="heartCount">0</span>
+            </div>
+        </div>
     </div>
+</section>
 
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
-    <script>
-        // ============ CONFIG ============
-        const BIRTHDAY = new Date('2011-06-08');
-        const VISITOR_API = 'https://api.visitorapi.com/api/?pid=YOUR_PID';
+<!-- STATS -->
+<div class="stats-bar">
+    <div class="stats-inner">
+        <div class="stat-block fi">
+            <span class="stat-num" id="visitorCount">—</span>
+            <div class="stat-label">Total Visitors</div>
+            <div class="stat-glow"></div>
+        </div>
+        <div class="stat-block fi" style="transition-delay:0.1s">
+            <span class="stat-num" id="emailCount">—</span>
+            <div class="stat-label">Emails Copied</div>
+            <div class="stat-glow"></div>
+        </div>
+        <div class="stat-block fi" style="transition-delay:0.2s">
+            <span class="stat-num" id="linkCount">—</span>
+            <div class="stat-label">Links Clicked</div>
+            <div class="stat-glow"></div>
+        </div>
+        <div class="stat-block fi" style="transition-delay:0.3s">
+            <span class="stat-num" id="liveCount">1</span>
+            <div class="stat-label">Live Now</div>
+            <div class="stat-glow"></div>
+        </div>
+    </div>
+</div>
 
-        // ============ STATS ============
-        let stats = {
-            visitors: 0,
-            emailsCopied: 0,
-            linksClicked: 0,
-            likes: 0,
-            hearts: 0
-        };
+<!-- BIRTHDAY -->
+<div class="bday-wrap">
+    <div class="bday-card fi">
+        <div class="bday-left">
+            <div class="bday-icon">🎂</div>
+            <div class="bday-info">
+                <h3>Birthday: June 8, 2011</h3>
+                <p>Celebrating another year of creating</p>
+            </div>
+        </div>
+        <div class="bday-stats">
+            <div class="bday-stat">
+                <div class="val" id="ageVal">—</div>
+                <div class="lbl">Years Old</div>
+            </div>
+            <div class="bday-stat">
+                <div class="val" id="daysVal">—</div>
+                <div class="lbl">Days Left</div>
+            </div>
+        </div>
+    </div>
+</div>
 
-        // ============ SOCIAL LINKS ============
-        const socialLinks = [
-            { name: "YouTube Channel", icon: "fab fa-youtube", url: "https://www.youtube.com/@JESUN_08_OFFICIAL", active: true },
-            { name: "Facebook Profile", icon: "fab fa-facebook", url: "https://www.facebook.com/JESUN.08.OFFICIAL", active: true },
-            { name: "Facebook Page", icon: "fas fa-flag", url: "https://www.facebook.com/JESUN.08.OFFICIAL", active: true },
-            { name: "Facebook Group", icon: "fas fa-users", url: "#", active: false },
-            { name: "Messenger Community", icon: "fas fa-comments", url: "https://m.me/cm/AbZEjyi5cRbBiHMS/?send_source=cm%3Acopy_invite_link", active: true },
-            { name: "Instagram Profile", icon: "fab fa-instagram", url: "https://www.instagram.com/jesun_08_/", active: true },
-            { name: "Instagram Channel", icon: "fas fa-bullhorn", url: "#", active: false },
-            { name: "Threads", icon: "fab fa-threads", url: "https://www.threads.net/@jesun_08_", active: true },
-            { name: "TikTok Profile", icon: "fab fa-tiktok", url: "https://www.tiktok.com/@jesun_08_", active: true },
-            { name: "X (Twitter)", icon: "fab fa-x-twitter", url: "https://x.com/JESUN_08_", active: true },
-            { name: "Discord Server", icon: "fas fa-headphones-alt", url: "#", active: false },
-            { name: "WhatsApp Channel", icon: "fas fa-broadcast-tower", url: "#", active: false },
-            { name: "WhatsApp Community", icon: "fas fa-people-group", url: "#", active: false },
-            { name: "Snapchat", icon: "fab fa-snapchat", url: "#", active: false },
-            { name: "Telegram Channel", icon: "fas fa-bolt", url: "#", active: false },
-            { name: "Telegram Group", icon: "fas fa-comments", url: "#", active: false }
-        ];
+<!-- EMAILS -->
+<section class="section" id="contact">
+    <div class="sec-label">Contact</div>
+    <h2 class="sec-heading">Reach Me <span>Anywhere</span></h2>
+    <div class="email-grid">
+        <div class="email-card fi" onclick="copyEmail('jesun.08.official@gmail.com',this)">
+            <div class="email-left">
+                <div class="email-ico" style="color:#EA4335"><i class="fab fa-google"></i></div>
+                <div><div class="email-type">GMAIL</div><div class="email-addr">jesun.08.official@gmail.com</div></div>
+            </div>
+            <div class="copy-btn"><i class="fas fa-copy"></i></div>
+        </div>
+        <div class="email-card fi" style="transition-delay:0.08s" onclick="copyEmail('jesun.08.official@icloud.com',this)">
+            <div class="email-left">
+                <div class="email-ico" style="color:#007AFF"><i class="fab fa-apple"></i></div>
+                <div><div class="email-type">ICLOUD</div><div class="email-addr">jesun.08.official@icloud.com</div></div>
+            </div>
+            <div class="copy-btn"><i class="fas fa-copy"></i></div>
+        </div>
+        <div class="email-card fi" style="transition-delay:0.14s" onclick="copyEmail('jesun.08.official@outlook.com',this)">
+            <div class="email-left">
+                <div class="email-ico" style="color:#0078D7"><i class="fab fa-microsoft"></i></div>
+                <div><div class="email-type">OUTLOOK</div><div class="email-addr">jesun.08.official@outlook.com</div></div>
+            </div>
+            <div class="copy-btn"><i class="fas fa-copy"></i></div>
+        </div>
+        <div class="email-card fi" style="transition-delay:0.2s" onclick="copyEmail('jesun.08.official@email.com',this)">
+            <div class="email-left">
+                <div class="email-ico" style="color:#c84bff"><i class="fas fa-envelope"></i></div>
+                <div><div class="email-type">EMAIL</div><div class="email-addr">jesun.08.official@email.com</div></div>
+            </div>
+            <div class="copy-btn"><i class="fas fa-copy"></i></div>
+        </div>
+    </div>
+</section>
 
-        // ============ USER REACTIONS ============
-        let userReactions = { hasLiked: false, hasHearted: false };
+<!-- COPY LINK -->
+<div class="copy-link-wrap">
+    <button class="btn-primary" id="copyLinkBtn" onclick="copyLink()">
+        <i class="fas fa-link"></i> Copy Website Link
+    </button>
+</div>
 
-        // ============ THEME TOGGLE ============
-        function setupThemeToggle() {
-            const defaultBtn = document.getElementById('defaultTheme');
-            const darkBtn = document.getElementById('darkThemeBtn');
-            const lightBtn = document.getElementById('lightThemeBtn');
-            const themeColor = document.getElementById('themeColor');
+<!-- SOCIALS -->
+<section class="section" id="social">
+    <div class="sec-label">Connect</div>
+    <h2 class="sec-heading">Find Me <span>Online</span></h2>
+    <div class="social-grid">
+        <a href="https://www.youtube.com/@JESUN_08_OFFICIAL" target="_blank" rel="noopener" class="social-card fi" onclick="trackLink()">
+            <div class="social-icon-wrap" style="background:rgba(255,0,0,0.2)"><i class="fab fa-youtube" style="color:#ff4444"></i></div>
+            <span>YouTube Profile</span>
+        </a>
+        <a href="https://www.facebook.com/jesun.08.official" target="_blank" rel="noopener" class="social-card fi" style="transition-delay:0.05s" onclick="trackLink()">
+            <div class="social-icon-wrap" style="background:rgba(24,119,242,0.2)"><i class="fab fa-facebook" style="color:#1877F2"></i></div>
+            <span>Facebook Profile</span>
+        </a>
+        <a href="https://www.facebook.com/JESUN.08.OFFICIAL" target="_blank" rel="noopener" class="social-card fi" style="transition-delay:0.1s" onclick="trackLink()">
+            <div class="social-icon-wrap" style="background:rgba(24,119,242,0.2)"><i class="fas fa-book-open" style="color:#1877F2"></i></div>
+            <span>Facebook Page</span>
+        </a>
+        <a href="https://www.instagram.com/jesun_08_/" target="_blank" rel="noopener" class="social-card fi" style="transition-delay:0.15s" onclick="trackLink()">
+            <div class="social-icon-wrap" style="background:rgba(225,48,108,0.2)"><i class="fab fa-instagram" style="color:#E1306C"></i></div>
+            <span>Instagram Profile</span>
+        </a>
+        <a href="https://www.threads.net/@jesun_08_" target="_blank" rel="noopener" class="social-card fi" style="transition-delay:0.2s" onclick="trackLink()">
+            <div class="social-icon-wrap" style="background:rgba(255,255,255,0.1)"><i class="fab fa-threads" style="color:white"></i></div>
+            <span>Threads Profile</span>
+        </a>
+        <a href="https://www.tiktok.com/@jesun_08_" target="_blank" rel="noopener" class="social-card fi" style="transition-delay:0.25s" onclick="trackLink()">
+            <div class="social-icon-wrap" style="background:rgba(255,255,255,0.1)"><i class="fab fa-tiktok" style="color:white"></i></div>
+            <span>TikTok Profile</span>
+        </a>
+        <a href="https://x.com/JESUN_08_" target="_blank" rel="noopener" class="social-card fi" style="transition-delay:0.3s" onclick="trackLink()">
+            <div class="social-icon-wrap" style="background:rgba(255,255,255,0.1)"><i class="fab fa-x-twitter" style="color:white"></i></div>
+            <span>Twitter (X) Profile</span>
+        </a>
+    </div>
+</section>
 
-            defaultBtn.addEventListener('click', () => {
-                document.body.setAttribute('data-theme', 'default');
-                themeColor.setAttribute('content', '#764ba2');
-                defaultBtn.classList.add('active');
-                darkBtn.classList.remove('active');
-                lightBtn.classList.remove('active');
-            });
+<!-- FOOTER -->
+<footer>
+    <span>JESUN</span> &nbsp;·&nbsp; Gamer · Editor · Programmer · Tech Learner &nbsp;·&nbsp; Thanks for visiting! ✨
+</footer>
 
-            darkBtn.addEventListener('click', () => {
-                document.body.setAttribute('data-theme', 'dark');
-                themeColor.setAttribute('content', '#0f3460');
-                darkBtn.classList.add('active');
-                defaultBtn.classList.remove('active');
-                lightBtn.classList.remove('active');
-            });
+<!-- TOAST -->
+<div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i>
+    <span id="toastMsg">Copied!</span>
+</div>
 
-            lightBtn.addEventListener('click', () => {
-                document.body.setAttribute('data-theme', 'light');
-                themeColor.setAttribute('content', '#e9ecef');
-                lightBtn.classList.add('active');
-                defaultBtn.classList.remove('active');
-                darkBtn.classList.remove('active');
-            });
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
+<script>
+// ─── SUPABASE ───
+const SB_URL = 'https://throxnfbxjkzgzkvxoae.supabase.co';
+const SB_KEY = 'sb_publishable_DovFXIcBUom4eSXP0mJGEg_WgNuI49o';
+const H = { 'apikey':SB_KEY, 'Authorization':'Bearer '+SB_KEY, 'Content-Type':'application/json', 'Prefer':'return=representation' };
 
-            // Set default active
-            defaultBtn.classList.add('active');
+// ─── BIRTHDAY ───
+function calcBday() {
+    const now = new Date(), bday = new Date('2011-06-08');
+    let age = now.getFullYear() - bday.getFullYear();
+    if (now < new Date(now.getFullYear(), bday.getMonth(), bday.getDate())) age--;
+    document.getElementById('ageVal').textContent = age;
+    let next = new Date(now.getFullYear(), bday.getMonth(), bday.getDate());
+    if (now >= next) next.setFullYear(next.getFullYear()+1);
+    document.getElementById('daysVal').textContent = Math.ceil((next-now)/86400000);
+}
+
+// ─── FETCH STATS ───
+async function fetchStats() {
+    try {
+        const r = await fetch(SB_URL+'/rest/v1/jesun_stats?id=eq.main', {headers:H});
+        const d = await r.json();
+        if (d && d[0]) {
+            document.getElementById('visitorCount').textContent = d[0].visitors||0;
+            document.getElementById('emailCount').textContent   = d[0].emails_copied||0;
+            document.getElementById('linkCount').textContent    = d[0].links_clicked||0;
+            document.getElementById('likeCount').textContent    = d[0].likes||0;
+            document.getElementById('heartCount').textContent   = d[0].hearts||0;
         }
+    } catch(e) {}
+}
 
-        // ============ INIT ============
-        document.addEventListener('DOMContentLoaded', function() {
-            loadStats();
-            loadUserReactions();
-            setupReactions();
-            setupCopyLinkButton();
-            loadSocialLinks();
-            calculateAge();
-            startCountdown();
-            getLiveVisitors();
-            setupThemeToggle();
-            
-            document.body.style.opacity = '0';
-            setTimeout(() => document.body.style.opacity = '1', 100);
-            setTimeout(checkIcons, 1000);
+// ─── INCREMENT ───
+async function inc(field) {
+    try {
+        await fetch(SB_URL+'/rest/v1/rpc/increment_stat', {
+            method:'POST', headers:H,
+            body:JSON.stringify({field_name:field})
         });
+    } catch(e) {}
+    fetchStats();
+}
 
-        // ============ LIVE VISITORS ============
-        function getLiveVisitors() {
-            const pid = 'YOUR_PID';
-            
-            if (pid !== 'YOUR_PID') {
-                fetch(`https://api.visitorapi.com/api/?pid=${pid}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        document.getElementById('liveVisitorCount').textContent = data.data?.visitorCount || '1';
-                    })
-                    .catch(() => {
-                        document.getElementById('liveVisitorCount').textContent = Math.floor(Math.random() * 50) + 1;
-                    });
-            } else {
-                document.getElementById('liveVisitorCount').textContent = Math.floor(Math.random() * 50) + 1;
-            }
-        }
+// ─── VISITOR ───
+async function countVisitor() {
+    if (sessionStorage.getItem('v')) return;
+    sessionStorage.setItem('v','1');
+    await inc('visitors');
+}
 
-        // ============ AGE CALCULATOR ============
-        function calculateAge() {
-            const today = new Date();
-            let age = today.getFullYear() - BIRTHDAY.getFullYear();
-            const monthDiff = today.getMonth() - BIRTHDAY.getMonth();
-            
-            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < BIRTHDAY.getDate())) {
-                age--;
-            }
-            
-            document.getElementById('ageDisplay').textContent = age + ' years';
-        }
+// ─── REACTIONS ───
+let rx = JSON.parse(localStorage.getItem('jesun_rx')||'{"liked":false,"hearted":false}');
 
-        // ============ BIRTHDAY COUNTDOWN ============
-        function startCountdown() {
-            function updateCountdown() {
-                const today = new Date();
-                let nextBirthday = new Date(today.getFullYear(), BIRTHDAY.getMonth(), BIRTHDAY.getDate());
-                
-                if (today > nextBirthday) {
-                    nextBirthday.setFullYear(today.getFullYear() + 1);
-                }
-                
-                const diff = nextBirthday - today;
-                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                document.getElementById('countdownDisplay').textContent = days + ' days';
-            }
-            
-            updateCountdown();
-            setInterval(updateCountdown, 86400000);
-        }
+function updateRx() {
+    document.getElementById('likeBtn').classList.toggle('reacted', rx.liked);
+    document.getElementById('heartBtn').classList.toggle('reacted', rx.hearted);
+}
 
-        // ============ CONFETTI ============
-        function explodeConfetti() {
-            confetti({
-                particleCount: 100,
-                spread: 70,
-                origin: { y: 0.6 }
-            });
-        }
+document.getElementById('likeBtn').addEventListener('click', async () => {
+    if (rx.liked) { showToast('Already liked! 👍'); return; }
+    rx.liked = true; localStorage.setItem('jesun_rx', JSON.stringify(rx));
+    updateRx(); await inc('likes'); burst(); showToast('Thanks for liking! 👍');
+});
 
-        // ============ REACTIONS ============
-        function setupReactions() {
-            const likeBox = document.getElementById('likeBox');
-            const heartBox = document.getElementById('heartBox');
-            
-            likeBox.addEventListener('click', function() {
-                if (userReactions.hasLiked) {
-                    showNotification('You already liked! 👍');
-                    return;
-                }
-                playSound('like');
-                stats.likes++;
-                userReactions.hasLiked = true;
-                saveStats();
-                saveUserReactions();
-                updateReactionButtons();
-                explodeConfetti();
-                showNotification('Thanks for liking! 👍');
-            });
-            
-            heartBox.addEventListener('click', function() {
-                if (userReactions.hasHearted) {
-                    showNotification('You already hearted! ❤️');
-                    return;
-                }
-                playSound('like');
-                stats.hearts++;
-                userReactions.hasHearted = true;
-                saveStats();
-                saveUserReactions();
-                updateReactionButtons();
-                explodeConfetti();
-                showNotification('Thanks for the heart! ❤️');
-            });
-        }
+document.getElementById('heartBtn').addEventListener('click', async () => {
+    if (rx.hearted) { showToast('Already hearted! ❤️'); return; }
+    rx.hearted = true; localStorage.setItem('jesun_rx', JSON.stringify(rx));
+    updateRx(); await inc('hearts'); burst(); showToast('Thanks for the heart! ❤️');
+});
 
-        // ============ LOAD SOCIAL LINKS ============
-        function loadSocialLinks() {
-            const container = document.getElementById('socialLinks');
-            container.innerHTML = '';
-            
-            socialLinks.forEach(link => {
-                const item = document.createElement(link.active ? 'a' : 'div');
-                item.className = `social-item ${link.active ? '' : 'coming-soon'}`;
-                
-                if (link.active) {
-                    item.href = link.url;
-                    item.target = '_blank';
-                    item.rel = 'noopener noreferrer';
-                    item.onclick = (e) => {
-                        stats.linksClicked++;
-                        saveStats();
-                        playSound('click');
-                    };
-                } else {
-                    item.onclick = (e) => {
-                        e.preventDefault();
-                        showNotification(`${link.name} coming soon!`);
-                        playSound('click');
-                    };
-                }
-                
-                item.innerHTML = `
-                    <i class="${link.icon} social-icon" style="color: white;"></i>
-                    <span class="social-text">${link.name}</span>
-                    ${!link.active ? '<span class="coming-soon-tag">Soon</span>' : ''}
-                `;
-                
-                container.appendChild(item);
-            });
-        }
+// ─── COPY EMAIL ───
+async function copyEmail(email, el) {
+    try { await navigator.clipboard.writeText(email); } catch(e) { fb(email); }
+    if(el){ el.style.borderColor='rgba(75,240,255,0.5)'; setTimeout(()=>el.style.borderColor='',900); }
+    await inc('emails_copied'); showToast('Email copied! 📋'); snd(800);
+}
 
-        // ============ STATS ============
-        function loadStats() {
-            const savedStats = JSON.parse(localStorage.getItem('jesunStats'));
-            if (savedStats) stats = savedStats;
-            if (!sessionStorage.getItem('visited')) {
-                stats.visitors++;
-                sessionStorage.setItem('visited', 'true');
-                saveStats();
-            }
-            updateStatsDisplay();
-        }
+// ─── COPY LINK ───
+async function copyLink() {
+    const url = 'https://jesun08.github.io/';
+    try { await navigator.clipboard.writeText(url); } catch(e) { fb(url); }
+    showToast('Link copied! 🔗');
+    const btn = document.getElementById('copyLinkBtn');
+    if(btn){ btn.innerHTML='<i class="fas fa-check"></i> Copied!'; setTimeout(()=>{btn.innerHTML='<i class="fas fa-link"></i> Copy Website Link';},2000); }
+    snd(1000);
+}
 
-        function loadUserReactions() {
-            const savedReactions = JSON.parse(localStorage.getItem('jesunUserReactions'));
-            if (savedReactions) userReactions = savedReactions;
-            updateReactionButtons();
-        }
+// ─── TRACK LINK ───
+async function trackLink() { await inc('links_clicked'); snd(600); }
 
-        function saveUserReactions() {
-            localStorage.setItem('jesunUserReactions', JSON.stringify(userReactions));
-        }
+function fb(t) {
+    const ta=document.createElement('textarea'); ta.value=t;
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+}
 
-        function saveStats() {
-            localStorage.setItem('jesunStats', JSON.stringify(stats));
-            updateStatsDisplay();
-        }
+// ─── TOAST ───
+let tt;
+function showToast(msg) {
+    const t=document.getElementById('toast');
+    document.getElementById('toastMsg').textContent=msg;
+    t.classList.add('show'); clearTimeout(tt);
+    tt=setTimeout(()=>t.classList.remove('show'),2600);
+}
 
-        function updateStatsDisplay() {
-            document.getElementById('visitorCount').textContent = stats.visitors;
-            document.getElementById('emailCopyCount').textContent = stats.emailsCopied;
-            document.getElementById('linkClickCount').textContent = stats.linksClicked;
-            document.getElementById('likeCount').textContent = stats.likes;
-            document.getElementById('heartCount').textContent = stats.hearts;
-        }
+// ─── CONFETTI ───
+function burst() {
+    confetti({particleCount:90,spread:70,origin:{y:0.5},colors:['#c84bff','#ff4b8b','#4bf0ff','#ffd166']});
+}
 
-        function updateReactionButtons() {
-            const likeBox = document.getElementById('likeBox');
-            const heartBox = document.getElementById('heartBox');
-            
-            if (userReactions.hasLiked) {
-                likeBox.classList.add('disabled');
-                likeBox.title = "You've already liked!";
-            } else {
-                likeBox.classList.remove('disabled');
-                likeBox.title = "Click to like!";
-            }
-            
-            if (userReactions.hasHearted) {
-                heartBox.classList.add('disabled');
-                heartBox.title = "You've already hearted!";
-            } else {
-                heartBox.classList.remove('disabled');
-                heartBox.title = "Click to heart!";
-            }
-        }
+// ─── SOUND ───
+function snd(freq) {
+    try {
+        const ac=new(window.AudioContext||window.webkitAudioContext)();
+        const o=ac.createOscillator(),g=ac.createGain();
+        o.connect(g);g.connect(ac.destination);
+        o.frequency.value=freq;o.type='sine';
+        g.gain.setValueAtTime(0.22,ac.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.01,ac.currentTime+0.12);
+        o.start(ac.currentTime);o.stop(ac.currentTime+0.12);
+    } catch(e){}
+}
 
-        // ============ COPY LINK ============
-        function setupCopyLinkButton() {
-            document.getElementById('copyLinkBtn').addEventListener('click', function() {
-                const websiteUrl = "https://jesun08.github.io/";
-                playSound('copy');
-                navigator.clipboard.writeText(websiteUrl).then(() => {
-                    showNotification('Website link copied! 🔗');
-                    playSound('success');
-                }).catch(() => {
-                    const textarea = document.createElement('textarea');
-                    textarea.value = websiteUrl;
-                    document.body.appendChild(textarea);
-                    textarea.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(textarea);
-                    showNotification('Website link copied! 🔗');
-                    playSound('success');
-                });
-                
-                this.innerHTML = '<i class="fas fa-check"></i> Copied!';
-                this.style.background = 'linear-gradient(45deg, #45a049, #3d8b40)';
-                setTimeout(() => {
-                    this.innerHTML = '<i class="fas fa-link"></i> Copy Website Link';
-                    this.style.background = '';
-                }, 2000);
-            });
-        }
+// ─── THEME ───
+document.querySelectorAll('.theme-pill').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+        document.querySelectorAll('.theme-pill').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        document.body.setAttribute('data-theme',btn.dataset.t);
+    });
+});
 
-        // ============ COPY EMAIL ============
-        function copyEmail(email) {
-            playSound('copy');
-            const clickedElement = event.currentTarget;
-            clickedElement.style.background = 'rgba(76, 175, 80, 0.3)';
-            setTimeout(() => clickedElement.style.background = '', 300);
-            
-            navigator.clipboard.writeText(email).then(() => {
-                showNotification('Email copied! 📋');
-                stats.emailsCopied++;
-                saveStats();
-                playSound('success');
-            }).catch(() => {
-                const textarea = document.createElement('textarea');
-                textarea.value = email;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
-                showNotification('Email copied! 📋');
-                stats.emailsCopied++;
-                saveStats();
-                playSound('success');
-            });
-        }
+// ─── SCROLL FADE ───
+const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});
+},{threshold:0.08});
 
-        // ============ NOTIFICATION ============
-        function showNotification(message) {
-            const notification = document.getElementById('notification');
-            const notificationText = document.getElementById('notificationText');
-            notificationText.textContent = message;
-            notification.classList.add('show');
-            setTimeout(() => notification.classList.remove('show'), 2500);
+// ─── ICON FALLBACK ───
+function fixIcons() {
+    document.querySelectorAll('.fa-threads').forEach(i=>{
+        if(!i.offsetHeight||!i.offsetWidth){
+            i.className=''; i.textContent='@';
+            i.style.cssText='font-weight:800;font-size:1.1em;color:white;';
         }
+    });
+    document.querySelectorAll('.fa-x-twitter').forEach(i=>{
+        if(!i.offsetHeight||!i.offsetWidth){
+            i.className=''; i.textContent='𝕏';
+            i.style.cssText='font-weight:800;font-size:1.1em;color:white;';
+        }
+    });
+}
 
-        // ============ SOUND ============
-        function playSound(type = 'click') {
-            try {
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                
-                switch(type) {
-                    case 'click': oscillator.frequency.value = 600; break;
-                    case 'copy': oscillator.frequency.value = 800; break;
-                    case 'success': oscillator.frequency.value = 1000; break;
-                    case 'like': oscillator.frequency.value = 700; break;
-                }
-                
-                oscillator.type = 'sine';
-                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-                oscillator.start(audioContext.currentTime);
-                oscillator.stop(audioContext.currentTime + 0.1);
-            } catch (e) {}
-        }
+// ─── LIVE ───
+function liveSim() {
+    const b=Math.floor(Math.random()*8)+1;
+    document.getElementById('liveCount').textContent=b;
+    setInterval(()=>{
+        document.getElementById('liveCount').textContent=Math.max(1,b+Math.floor(Math.random()*4)-1);
+    },9000);
+}
 
-        // ============ CHECK ICONS ============
-        function checkIcons() {
-            const threadsIcons = document.querySelectorAll('.fa-threads');
-            threadsIcons.forEach(icon => {
-                if (getComputedStyle(icon).display === 'none' || icon.offsetHeight === 0) {
-                    icon.style.display = 'inline-block';
-                    icon.style.fontFamily = 'Arial, sans-serif';
-                    icon.style.fontWeight = 'bold';
-                    icon.style.fontSize = '1.2em';
-                    icon.textContent = '@';
-                    icon.style.color = 'white';
-                }
-            });
-            
-            const xIcons = document.querySelectorAll('.fa-x-twitter');
-            xIcons.forEach(icon => {
-                if (getComputedStyle(icon).display === 'none' || icon.offsetHeight === 0) {
-                    icon.style.display = 'inline-block';
-                    icon.style.fontFamily = 'Arial, sans-serif';
-                    icon.style.fontWeight = 'bold';
-                    icon.style.fontSize = '1.2em';
-                    icon.textContent = '𝕏';
-                    icon.style.color = 'white';
-                }
-            });
-        }
+// ─── INIT ───
+document.addEventListener('DOMContentLoaded',()=>{
+    calcBday(); updateRx(); fetchStats(); countVisitor(); liveSim();
+    setTimeout(()=>{ document.querySelectorAll('.fi').forEach(el=>obs.observe(el)); fixIcons(); },100);
+    setTimeout(()=>document.body.classList.add('loaded'),60);
+});
 
-        // ============ PWA SERVICE WORKER ============
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js').catch(err => console.log('SW registration failed:', err));
-            });
-        }
-    </script>
+if('serviceWorker' in navigator){
+    window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+}
+</script>
 </body>
 </html>
